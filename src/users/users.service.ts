@@ -14,7 +14,9 @@ export class UsersService {
   ];
 
   create(createUserDto: CreateUserDto) {
-    const id = this.users[this.users.length - 1].id + 1;
+    const currentMaxId = this.users[this.users.length - 1]?.id || 0;
+
+    const id = currentMaxId + 1;
 
     const user: User = {
       id,
@@ -50,6 +52,10 @@ export class UsersService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
+    const user = this.findOne(id);
+
+    const index = this.users.indexOf(user);
+
+    this.users.splice(index, 1);
   }
 }
